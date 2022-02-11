@@ -1,0 +1,209 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html lang="ko">
+    <head>
+        <head>
+            <!-- Required meta tags -->
+            <meta charset="utf-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+            <!-- Bootstrap CSS -->
+            <link
+                href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+                rel="stylesheet"
+                integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
+                crossorigin="anonymous"
+            />
+            <!-- Go to www.addthis.com/dashboard to customize your tools -->
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-6205c6d7a74ff37e"></script>
+
+        </head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0"
+        />
+        <title>얼굴형 테스트</title>
+        <link href="css/default.css" rel="stylesheet" type="text/css" />
+        <link href="css/style.css" rel="stylesheet" type="text/css" />
+
+        <style type="text/css">
+            #result-messege {
+                padding: 20px;
+                background: #ccc;
+                border-radius: 15px;
+                margin-bottom: 25px;
+                font-size: 16px;
+                text-align: center;
+            }
+
+            #label-container dl {
+                margin-bottom: 10px;
+            }
+            #label-container dl dt {
+                position: absolute;
+                top: 50%;
+                left: 0;
+                font-size: 20px;
+                transform: translateY(-50%);
+            }
+            #label-container dl dd {
+                margin-left: 200px;
+                border: 1px solid #ebebeb;
+                height: 30px;
+            }
+            .result {
+                max-width: 800px;
+                margin: 0 auto;
+            }
+        </style>
+    </head>
+    <body style="text-align: center;">
+        <p style="font-size: 30px;"></p>
+        <body>
+            <div id="wrap">
+                <!--header-->
+                <div id="header">
+                    <h1>view fit</h1>
+                </div>
+                <!--//header-->
+                <!--container-->
+                <div id="container">
+                    <!--wrap-->
+                    <div class="wrap">
+                        <h2>얼굴형 테스트</h2>
+                        <div class="img_regi">
+                            <div class="ph"><img id="blah" src="#" alt="" /></div>
+
+                            <input type="file" id="imgInp" />
+                            <a href="#self">UPLOAD</a>
+                        </div>
+                        <p id="result-messege">
+                            view fit에서 만든 얼굴형 테스트는 Ai 기술로 자신의 얼굴형을 찾고
+                            얼굴형에 맞는 헤어스타일을 알려 드립니다. 앞머리가 없는 얼굴 사진을
+                            선호합니다!
+                        </p>
+                        <div class="result">
+                            <div id="label-container" class="graph_area"></div>
+                        </div>
+                        
+                <!-- Go to www.addthis.com/dashboard to customize your tools -->
+                <div class="addthis_inline_share_toolbox"></div>
+            
+                        <div class="text_box">@by.viewfit 2022 All rights dev.</div>
+                    </div>
+                    <!--//wrap-->
+                </div>
+                <!--//container-->
+            </div>
+            <div id="webcam-container"></div>
+
+            <script
+                type="text/javascript"
+                src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"
+            ></script>
+            <script type="text/javascript" src="js/layout.js"></script>
+            <script type="text/javascript"></script>
+            <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.3.1/dist/tf.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@0.8/dist/teachablemachine-image.min.js"></script>
+            <script type="text/javascript">
+                // More API functions here:
+                // https://github.com/googlecreativelab/teachablemachine-community/tree/master/libraries/image
+
+                // the link to your model provided by Teachable Machine export panel
+                const URL = 'https://teachablemachine.withgoogle.com/models/CRLWztmpN/';
+
+                let model, webcam, labelContainer, maxPredictions;
+
+                // Load the image model and setup the webcam
+                async function init() {
+                    const modelURL = URL + 'model.json';
+                    const metadataURL = URL + 'metadata.json';
+
+                    // load the model and metadata
+                    // Refer to tmImage.loadFromFiles() in the API to support files from a file picker
+                    // or files from your local hard drive
+                    // Note: the pose library adds "tmImage" object to your window (window.tmImage)
+                    model = await tmImage.load(modelURL, metadataURL);
+                    maxPredictions = model.getTotalClasses();
+                    labelContainer = document.getElementById('label-container');
+                    labelContainer.innerHTML = '';
+                    for (let i = 0; i < maxPredictions; i++) {
+                        // and class labels
+                        labelContainer.appendChild(document.createElement('div'));
+                    }
+                }
+                // run the webcam image through the image model
+                async function predict() {
+                    // predict can take in an image, video or canvas html element
+                    var image = document.getElementById('blah');
+                    const prediction = await model.predict(image, false);
+                    prediction.sort(
+                        (a, b) => parseFloat(b.probability) - parseFloat(a.probability)
+                    );
+                    //console.log(prediction[0].ClassName);
+                    var resultTitle;
+                    switch (prediction[0].className) {
+                        case '계란형':
+                            resultTitle =
+                                '이상적 얼굴, 계란형. 전체적으로 균형이 잘 잡혀있고 턱이 V라인이 되는 얼굴형 입니다. 이마를 가리지 않는 어떤 헤어스타일과도 잘 어울리는 축복 받은 얼굴형 입니다. 한예슬, 강동원, GD, 김태희 등이 얼굴형에 속합니다.';
+                            break;
+                        case '긴 얼굴형':
+                            resultTitle =
+                                '말라보이는 얼굴, 긴 얼굴형. 얼굴이 말라보이고 갸름해 보여서 얼굴이 부자연스러워 보이는게 단점 입니다. 앞머리를 내리거나 머리 전체에 약간의 웨이브를 넣어 둥글게 말아주는 것이 좋습니다. 제니, 조보아, 신비, 윤아 등이 얼굴형에 속합니다.';
+                            break;
+                        case '다이아몬드형':
+                            resultTitle =
+                                '고급져 보이는 얼굴, 다이아몬드형. 광대뼈가 가장 넓고 높게 위치해 있습니다. 앞머리 위쪽에 풍성한 볼륨을 주고 자연스러운 웨이브가 좋습니다. 대부분의 스타일이 잘 어울립니다. 오윤아, 임나영 등이 얼굴형에 속합니다.';
+                            break;
+                        case '둥근형':
+                            resultTitle =
+                                '한국인들의 얼굴, 둥근형. 둥근형은 귀여워 보이고 동안으로 보이는 얼굴형 입니다. 미디엄 길이는 피해고 긴 생머리나 웨이브로 얼굴을 가리고 이마를 내는게 갸름해 보입니다. 고현정, 유이, 유아, 김다미 등이 얼굴형에 속합니다.';
+                            break;
+                        case '사각형':
+                            resultTitle =
+                                '강한 인상, 사각형. 전체적으로 각이 져서 강한 인상을 남긴다는 얼굴형 입니다. 스트레이트 매직은 피하고 둥글어 보이는 굵은 웨이브 헤어스타일을 선호합니다. 강하늘, 김태리, 박보검, 카이 등이 얼굴형에 속합니다.';
+                            break;
+                        case '역삼각형/하트형':
+                            resultTitle =
+                                '기억에 남는 얼굴, 하트형. 턱쪽으로 내려올수록 얼굴이 좁아져 얼굴이 작아보이는 형태 입니다. 앞머리를 내리거나 웨이브를 넣어 얼굴선이 부드러워 보이게 하는걸 선호 합니다. 사나, 수지, 서인국, 신민아 등이 얼굴형에 속합니다.';
+                            break;
+                        case '직사각형':
+                            resultTitle =
+                                '강한 특징, 직사각형. 각진턱과 넓은 이마 긴 부분이 가장 두드러지는 직사각형은 턱선의 기장이나 딱 붙는 머리는 피하고 옆머리에 볼륨을 주거나 5:5가르마, 눈썹에 닿는 시스루뱅이 좋습니다. 이동욱, 려원, 티파니, 등이 얼굴형에 속합니다.';
+                            break;
+                        default:
+                            resultTitle =
+                                '당신과 어울리는 얼굴형을 찾지 못했습니다. 사진을 이메일로 보내주시면 추가해 드리겠습니다.';
+                    }
+                    document.getElementById('result-messege').innerHTML = resultTitle;
+
+                    for (let i = 0; i < maxPredictions; i++) {
+                        console.log(
+                            i,
+                            prediction[i].className,
+                            Math.round(prediction[i].probability * 100).toFixed(2)
+                        );
+
+                        const classPrediction =
+                            '<dl><dt>' +
+                            prediction[i].className +
+                            '</dt><dd><div class="progress"><div class="progress-bar progress-bar-primary" style="width: ' +
+                            Math.round(prediction[i].probability * 100).toFixed(0) +
+                            '%;">' +
+                            Math.round(prediction[i].probability * 100).toFixed(0) +
+                            '%</div></div></dd></dl>';
+
+                        labelContainer.innerHTML += classPrediction;
+                    }
+                }
+            </script>
+
+            <!-- Option 1: Bootstrap Bundle with Popper -->
+            <script
+                src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+                integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+                crossorigin="anonymous"
+            ></script>
+        </body>
+    </body>
+</html>

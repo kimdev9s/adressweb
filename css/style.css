@@ -1,0 +1,140 @@
+/*basic-set*/
+input[type=text],
+input[type=password],
+textarea
+{
+    -webkit-box-sizing :border-box;‌​
+    -moz-box-sizing :border-box;
+    box-sizing :border-box;
+	line-height:auto;
+	vertical-align:top;
+}
+* { position:relative; transition:all ease-in-out 0.3s; word-break:keep-all; }
+
+body { background: rgb(192,192,192); background: #efefef; }
+#header { padding: 20px; text-align: center; background: #333; }
+#header h1 { font-size: 24px; color: #fff; }
+
+#container { padding: 50px 20px; }
+#container .wrap { max-width: 800px; margin: 0 auto; }
+#container .wrap h2 { font-size: 20px; color: #333; text-align: center; margin-bottom: 15px; }
+
+.img_regi { height:500px; overflow:hidden; border-radius: 15px; margin-bottom: 50px; }
+.img_regi .ph { position:absolute; top:0; left:-100%; right:-100%; bottom:100px; background: url("../image/image.png") no-repeat center center #fff; text-align:center; overflow:hidden; }
+.img_regi .ph img { height:100%; visibility:hidden; }
+.img_regi input[type="file"] { position:absolute; left:0; bottom:0; width:100%; height:100px; filter:alpha(opacity=0); opacity:0; cursor:pointer; z-index:5; }
+.img_regi a { position:absolute; left:0; bottom:0; width:100%; height:100px; line-height:100px; background: #666; font-size: 26px; font-weight: 700; color:#fff; text-align:center; }
+
+.text_box { padding: 30px; text-align: center; background: #dadada; border-radius: 15px; font-size: 16px; color: #000; }
+.label-container { padding: 30px; text-align: center; background: #dadada; border-radius: 15px; font-size: 16px; color: #000; }
+
+@media screen and (max-width:850px) {
+#header { padding: 15px; }
+#header h1 { font-size: 20px; }
+
+#container { padding: 20px 15px; }
+#container .wrap h2 { font-size: 20px; margin-bottom: 12px; }
+
+.img_regi { height:300px; border-radius: 10px; margin-bottom: 25px; }
+.img_regi .ph { bottom:70px; background-size: auto 100px; }
+.img_regi input[type="file"] { height:70px; }
+.img_regi a { height:70px; line-height:70px; font-size: 20px; }
+
+.text_box1 { padding: 15px; border-radius: 10px; font-size: 14px; }
+    .text_box2 { padding: 15px; border-radius: 10px; font-size: 14px; }
+}
+
+.result { max-width: 550px; margin: 0 auto; }
+.result .ph { max-width: 450px; height: 300px; border: 1px solid #ebebeb; background: #fff; border-radius: 15px; margin: 0 auto 25px; }
+.result .word { padding: 20px; background: #ccc; border-radius: 15px; margin-bottom: 25px; font-size: 16px; text-align: center; }
+.result .graph_area { padding-bottom: 15px; margin: 0 20px; }
+.result .graph_area dl { margin-bottom: 10px; }
+.result .graph_area dl dt { position: absolute; top: 50%; left: 0; font-size: 20px; transform: translateY(-50%); }
+.result .graph_area dl dd { margin-left: 110px; border: 1px solid #ebebeb; height: 30px; }
+.result .btns { text-align: center; }
+.result .btns a { display: inline-block; width: 135px; line-height: 55px; border-radius: 5px; margin: 0 3px; font-size: 16px; color: #fff; }
+.result .btns a:hover { text-decoration: none; }
+.result .btns a.bt_again { background: #ccc; color: #000; }
+.result .btns a.bt_save { background: #555; }
+.result .btns a.bt_share { background: #111; }
+
+
+@media screen and (max-width:850px) {
+    .result .ph { height: 250px; border-radius: 10px; margin-bottom: 15px; }
+    .result .word { padding: 15px; border-radius: 10px; margin-bottom: 15px; font-size: 14px; }
+    .result .graph_area { padding-bottom: 10px; margin: 0 10px; }
+    .result .graph_area dl dt { font-size: 16px; }
+    .result .graph_area dl dd { margin-left: 90px; height: 24px; }
+    .result .btns a { width: 105px; line-height: 45px; font-size: 14px; }
+}
+
+/* Progress */
+.progress {
+	border-radius: 25px;
+	height: 30px;
+	background: #FAFAFA;
+	overflow: visible;
+}
+
+.progress-bar {
+	background-color: #CCC;
+	box-shadow: none;
+	position: relative;
+	border-radius: 25px;
+	overflow: visible;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    width:0%;
+    transition: 1s linear;
+    min-width: 5%;
+}
+
+.progress-bar-primary {
+    background-color: #0088CC;
+	color: #FFF;
+}
+
+.progress-bar-success {
+	background-color: #28a745;
+	color: #FFF;
+}
+
+.progress-bar-warning {
+	background-color: #ffc107;
+	color: #FFF;
+}
+
+.progress-bar-danger {
+	background-color: #dc3545;
+	color: #FFF;
+}
+
+.progress-bar-info {
+	background-color: #17a2b8;
+	color: #FFF;
+}
+
+.progress-bar-dark {
+	background-color: #212529;
+	color: #FFF;
+}
+
+.progress-bar-gray {
+	background-color: gray;
+	color: #FFF;
+}
+
+@media screen and (max-width:850px) {
+    .progress {
+        border-radius: 10px;
+        height: 24px;
+        background: #FAFAFA;
+        overflow: visible;
+    }
+    .progress-bar {
+        border-radius: 10px;
+        height: 24px;
+        line-height: 24px;
+    }    
+}
